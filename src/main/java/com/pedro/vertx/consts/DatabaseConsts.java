@@ -19,4 +19,6 @@ public class DatabaseConsts {
   public static final String DB_PASSWORD_CONFIG = "db.password";
 
   public static final String ARTICLE_SERVICE_QUEUE = "article.service.queue";
+
+  public static final String USER_SERVICE_QUEUE = "user.service.queue";
 }

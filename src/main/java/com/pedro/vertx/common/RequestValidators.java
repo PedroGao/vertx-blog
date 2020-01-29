@@ -3,6 +3,7 @@ package com.pedro.vertx.common;
 import cn.hutool.core.io.resource.ResourceUtil;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.web.api.validation.ParameterType;
 import io.vertx.reactivex.ext.web.api.validation.HTTPRequestValidationHandler;
 
 public class RequestValidators {
@@ -18,5 +19,11 @@ public class RequestValidators {
       .create()
       .addExpectedContentType("application/json")
       .addJsonBodySchema(schemas.getJsonObject("login").encode());
+  }
+
+  public static HTTPRequestValidationHandler keywordValidator() {
+    return HTTPRequestValidationHandler
+      .create()
+      .addQueryParam("q", ParameterType.GENERIC_STRING, true);
   }
 }

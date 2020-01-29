@@ -2,17 +2,19 @@
 
 -- 建表
 
-DROP TABLE IF EXISTS "user";
+DROP TABLE IF EXISTS blog_user;
 
-CREATE TABLE "user"
+CREATE TABLE blog_user
 (
   id       serial PRIMARY KEY,
-  username varchar(20) NOT NULL,
-  password varchar(80) NOT NULL
+  username varchar(20)  NOT NULL,
+  password varchar(100) NOT NULL
 );
 
-INSERT INTO "user"(id, username, password)
-VALUES (1, 'pedro', '');
+CREATE UNIQUE INDEX username_index ON blog_user (username);
+
+INSERT INTO blog_user(id, username, password)
+VALUES (1, 'pedro', 'pbkdf2sha256:64000:18:24:n:RaQA2Y8uktZvAVVzgrePNKepTJVpUVIW:ecMNVl1b+E5idjmCJ85cP5to');
 
 DROP TABLE IF EXISTS article;
 

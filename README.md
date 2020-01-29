@@ -1,6 +1,6 @@
 # Vertx-blog
 
-> 基于 vertx + postgreSQL 的博客基础项目
+> 基于 vertx + postgreSQL 的基础博客项目
 
 ## 状态
 

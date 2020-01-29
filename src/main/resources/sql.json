@@ -1,0 +1,5 @@
+{
+  "sql.ArticleService.fetchAllArticles": "SELECT id,title,content FROM article",
+  "sql.ArticleService.searchArticle": "SELECT id,title,content FROM article WHERE fts @@ to_tsquery(?)",
+  "sql.UserService.getUserByUsername": "SELECT id,username,password FROM blog_user WHERE username = ?"
+}

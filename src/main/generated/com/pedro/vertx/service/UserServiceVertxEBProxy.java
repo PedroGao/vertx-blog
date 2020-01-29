@@ -33,28 +33,27 @@ import io.vertx.serviceproxy.ServiceException;
 import io.vertx.serviceproxy.ServiceExceptionMessageCodec;
 import io.vertx.serviceproxy.ProxyUtils;
 
-import java.util.List;
-import com.pedro.vertx.service.ArticleService;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
+import com.pedro.vertx.service.UserService;
 /*
   Generated Proxy code - DO NOT EDIT
   @author Roger the Robot
 */
 
 @SuppressWarnings({"unchecked", "rawtypes"})
-public class ArticleServiceVertxEBProxy implements ArticleService {
+public class UserServiceVertxEBProxy implements UserService {
   private Vertx _vertx;
   private String _address;
   private DeliveryOptions _options;
   private boolean closed;
 
-  public ArticleServiceVertxEBProxy(Vertx vertx, String address) {
+  public UserServiceVertxEBProxy(Vertx vertx, String address) {
     this(vertx, address, null);
   }
 
-  public ArticleServiceVertxEBProxy(Vertx vertx, String address, DeliveryOptions options) {
+  public UserServiceVertxEBProxy(Vertx vertx, String address, DeliveryOptions options) {
     this._vertx = vertx;
     this._address = address;
     this._options = options;
@@ -64,40 +63,42 @@ public class ArticleServiceVertxEBProxy implements ArticleService {
   }
 
   @Override
-  public  ArticleService fetchAllArticles(Handler<AsyncResult<List<JsonObject>>> handler){
+  public  UserService getUserByUsername(String username, Handler<AsyncResult<JsonObject>> handler){
     if (closed) {
       handler.handle(Future.failedFuture(new IllegalStateException("Proxy is closed")));
       return this;
     }
     JsonObject _json = new JsonObject();
+    _json.put("username", username);
 
     DeliveryOptions _deliveryOptions = (_options != null) ? new DeliveryOptions(_options) : new DeliveryOptions();
-    _deliveryOptions.addHeader("action", "fetchAllArticles");
-    _vertx.eventBus().<JsonArray>send(_address, _json, _deliveryOptions, res -> {
+    _deliveryOptions.addHeader("action", "getUserByUsername");
+    _vertx.eventBus().<JsonObject>send(_address, _json, _deliveryOptions, res -> {
       if (res.failed()) {
         handler.handle(Future.failedFuture(res.cause()));
       } else {
-        handler.handle(Future.succeededFuture(ProxyUtils.convertList(res.result().body().getList())));
+        handler.handle(Future.succeededFuture(res.result().body()));
       }
     });
     return this;
   }
   @Override
-  public  ArticleService searchArticle(String keyword, Handler<AsyncResult<List<JsonObject>>> handler){
+  public  UserService getUserAndComparePassword(String username, String password, Handler<AsyncResult<Boolean>> handler){
     if (closed) {
       handler.handle(Future.failedFuture(new IllegalStateException("Proxy is closed")));
       return this;
     }
     JsonObject _json = new JsonObject();
-    _json.put("keyword", keyword);
+    _json.put("username", username);
+    _json.put("password", password);
 
     DeliveryOptions _deliveryOptions = (_options != null) ? new DeliveryOptions(_options) : new DeliveryOptions();
-    _deliveryOptions.addHeader("action", "searchArticle");
-    _vertx.eventBus().<JsonArray>send(_address, _json, _deliveryOptions, res -> {
+    _deliveryOptions.addHeader("action", "getUserAndComparePassword");
+    _vertx.eventBus().<Boolean>send(_address, _json, _deliveryOptions, res -> {
       if (res.failed()) {
         handler.handle(Future.failedFuture(res.cause()));
       } else {
-        handler.handle(Future.succeededFuture(ProxyUtils.convertList(res.result().body().getList())));
+        handler.handle(Future.succeededFuture(res.result().body()));
       }
     });
     return this;

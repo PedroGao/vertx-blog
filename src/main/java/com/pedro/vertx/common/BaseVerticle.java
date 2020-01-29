@@ -8,11 +8,21 @@ import io.vertx.reactivex.core.AbstractVerticle;
 public class BaseVerticle extends AbstractVerticle {
 
   public JsonObject config() {
-    JsonObject json = super.config();
-    if (json.isEmpty()) {
-      byte[] bytes = ResourceUtil.readBytes("application.json");
-      return new JsonObject(Buffer.buffer(bytes));
-    }
-    return json;
+    JsonObject config = super.config();
+    JsonObject applicationConfig = readApplicationConfig();
+    JsonObject sqlConfig = readSQLConfig();
+    config.mergeIn(applicationConfig, true);
+    config.mergeIn(sqlConfig, true);
+    return config;
+  }
+
+  private JsonObject readApplicationConfig() {
+    byte[] bytes = ResourceUtil.readBytes("application.json");
+    return new JsonObject(Buffer.buffer(bytes));
+  }
+
+  private JsonObject readSQLConfig() {
+    byte[] bytes = ResourceUtil.readBytes("sql.json");
+    return new JsonObject(Buffer.buffer(bytes));
   }
 }

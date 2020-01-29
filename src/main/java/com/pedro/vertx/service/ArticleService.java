@@ -21,9 +21,12 @@ public interface ArticleService {
   @Fluent
   ArticleService fetchAllArticles(Handler<AsyncResult<List<JsonObject>>> handler);
 
+  @Fluent
+  ArticleService searchArticle(String keyword, Handler<AsyncResult<List<JsonObject>>> handler);
+
   @GenIgnore
-  static ArticleService create(JDBCClient client) {
-    return new ArticleServiceImpl(client);
+  static ArticleService create(JsonObject config, JDBCClient client) {
+    return new ArticleServiceImpl(config, client);
   }
 
   @GenIgnore

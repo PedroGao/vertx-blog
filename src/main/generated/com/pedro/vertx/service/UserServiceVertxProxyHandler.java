@@ -16,7 +16,7 @@
 
 package com.pedro.vertx.service;
 
-import com.pedro.vertx.service.ArticleService;
+import com.pedro.vertx.service.UserService;
 import io.vertx.core.Vertx;
 import io.vertx.core.Handler;
 import io.vertx.core.AsyncResult;
@@ -41,35 +41,34 @@ import io.vertx.serviceproxy.ServiceException;
 import io.vertx.serviceproxy.ServiceExceptionMessageCodec;
 import io.vertx.serviceproxy.HelperUtils;
 
-import java.util.List;
-import com.pedro.vertx.service.ArticleService;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
+import com.pedro.vertx.service.UserService;
 /*
   Generated Proxy code - DO NOT EDIT
   @author Roger the Robot
 */
 
 @SuppressWarnings({"unchecked", "rawtypes"})
-public class ArticleServiceVertxProxyHandler extends ProxyHandler {
+public class UserServiceVertxProxyHandler extends ProxyHandler {
 
   public static final long DEFAULT_CONNECTION_TIMEOUT = 5 * 60; // 5 minutes 
   private final Vertx vertx;
-  private final ArticleService service;
+  private final UserService service;
   private final long timerID;
   private long lastAccessed;
   private final long timeoutSeconds;
 
-  public ArticleServiceVertxProxyHandler(Vertx vertx, ArticleService service){
+  public UserServiceVertxProxyHandler(Vertx vertx, UserService service){
     this(vertx, service, DEFAULT_CONNECTION_TIMEOUT);
   }
 
-  public ArticleServiceVertxProxyHandler(Vertx vertx, ArticleService service, long timeoutInSecond){
+  public UserServiceVertxProxyHandler(Vertx vertx, UserService service, long timeoutInSecond){
     this(vertx, service, true, timeoutInSecond);
   }
 
-  public ArticleServiceVertxProxyHandler(Vertx vertx, ArticleService service, boolean topLevel, long timeoutSeconds) {
+  public UserServiceVertxProxyHandler(Vertx vertx, UserService service, boolean topLevel, long timeoutSeconds) {
       this.vertx = vertx;
       this.service = service;
       this.timeoutSeconds = timeoutSeconds;
@@ -116,13 +115,15 @@ public class ArticleServiceVertxProxyHandler extends ProxyHandler {
       if (action == null) throw new IllegalStateException("action not specified");
       accessed();
       switch (action) {
-        case "fetchAllArticles": {
-          service.fetchAllArticles(HelperUtils.createListHandler(msg));
+        case "getUserByUsername": {
+          service.getUserByUsername((java.lang.String)json.getValue("username"),
+                        HelperUtils.createHandler(msg));
           break;
         }
-        case "searchArticle": {
-          service.searchArticle((java.lang.String)json.getValue("keyword"),
-                        HelperUtils.createListHandler(msg));
+        case "getUserAndComparePassword": {
+          service.getUserAndComparePassword((java.lang.String)json.getValue("username"),
+                        (java.lang.String)json.getValue("password"),
+                        HelperUtils.createHandler(msg));
           break;
         }
         default: throw new IllegalStateException("Invalid action: " + action);

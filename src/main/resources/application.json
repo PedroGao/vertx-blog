@@ -1,3 +1,4 @@
 {
-  "http.port": 3000
+  "http.port": 5000,
+  "token.secret": "klhihizooihihihizzih1007013707jjjuigigii"
 }

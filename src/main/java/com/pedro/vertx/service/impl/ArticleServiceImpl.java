@@ -3,6 +3,7 @@ package com.pedro.vertx.service.impl;
 import com.pedro.vertx.service.ArticleService;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.sql.ResultSet;
 import io.vertx.reactivex.SingleHelper;
@@ -18,14 +19,28 @@ public class ArticleServiceImpl implements ArticleService {
 
   private JDBCClient client;
 
-  public ArticleServiceImpl(JDBCClient client) {
+  private JsonObject config;
+
+  public ArticleServiceImpl(JsonObject config, JDBCClient client) {
     this.client = client;
+    this.config = config;
   }
 
   @Override
   public ArticleService fetchAllArticles(Handler<AsyncResult<List<JsonObject>>> handler) {
+    String sql = config.getString("sql.ArticleService.fetchAllArticles");
     client
-      .rxQuery("select id,title,content from article")
+      .rxQuery(sql)
+      .map(ResultSet::getRows)
+      .subscribe(SingleHelper.toObserver(handler));
+    return this;
+  }
+
+  @Override
+  public ArticleService searchArticle(String keyword, Handler<AsyncResult<List<JsonObject>>> handler) {
+    String sql = config.getString("sql.ArticleService.searchArticle");
+    client
+      .rxQueryWithParams(sql, new JsonArray().add(keyword))
       .map(ResultSet::getRows)
       .subscribe(SingleHelper.toObserver(handler));
     return this;

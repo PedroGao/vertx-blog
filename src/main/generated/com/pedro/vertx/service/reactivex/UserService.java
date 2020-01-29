@@ -22,14 +22,13 @@ import io.reactivex.Flowable;
 import io.reactivex.Single;
 import io.reactivex.Completable;
 import io.reactivex.Maybe;
-import java.util.List;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 
 
-@io.vertx.lang.rx.RxGen(com.pedro.vertx.service.ArticleService.class)
-public class ArticleService {
+@io.vertx.lang.rx.RxGen(com.pedro.vertx.service.UserService.class)
+public class UserService {
 
   @Override
   public String toString() {
@@ -40,7 +39,7 @@ public class ArticleService {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    ArticleService that = (ArticleService) o;
+    UserService that = (UserService) o;
     return delegate.equals(that.delegate);
   }
   
@@ -49,44 +48,44 @@ public class ArticleService {
     return delegate.hashCode();
   }
 
-  public static final io.vertx.lang.rx.TypeArg<ArticleService> __TYPE_ARG = new io.vertx.lang.rx.TypeArg<>(    obj -> new ArticleService((com.pedro.vertx.service.ArticleService) obj),
-    ArticleService::getDelegate
+  public static final io.vertx.lang.rx.TypeArg<UserService> __TYPE_ARG = new io.vertx.lang.rx.TypeArg<>(    obj -> new UserService((com.pedro.vertx.service.UserService) obj),
+    UserService::getDelegate
   );
 
-  private final com.pedro.vertx.service.ArticleService delegate;
+  private final com.pedro.vertx.service.UserService delegate;
   
-  public ArticleService(com.pedro.vertx.service.ArticleService delegate) {
+  public UserService(com.pedro.vertx.service.UserService delegate) {
     this.delegate = delegate;
   }
 
-  public com.pedro.vertx.service.ArticleService getDelegate() {
+  public com.pedro.vertx.service.UserService getDelegate() {
     return delegate;
   }
 
-  public com.pedro.vertx.service.reactivex.ArticleService fetchAllArticles(Handler<AsyncResult<List<JsonObject>>> handler) { 
-    delegate.fetchAllArticles(handler);
+  public com.pedro.vertx.service.reactivex.UserService getUserByUsername(String username, Handler<AsyncResult<JsonObject>> handler) { 
+    delegate.getUserByUsername(username, handler);
     return this;
   }
 
-  public Single<List<JsonObject>> rxFetchAllArticles() { 
+  public Single<JsonObject> rxGetUserByUsername(String username) { 
     return io.vertx.reactivex.impl.AsyncResultSingle.toSingle(handler -> {
-      fetchAllArticles(handler);
+      getUserByUsername(username, handler);
     });
   }
 
-  public com.pedro.vertx.service.reactivex.ArticleService searchArticle(String keyword, Handler<AsyncResult<List<JsonObject>>> handler) { 
-    delegate.searchArticle(keyword, handler);
+  public com.pedro.vertx.service.reactivex.UserService getUserAndComparePassword(String username, String password, Handler<AsyncResult<Boolean>> handler) { 
+    delegate.getUserAndComparePassword(username, password, handler);
     return this;
   }
 
-  public Single<List<JsonObject>> rxSearchArticle(String keyword) { 
+  public Single<Boolean> rxGetUserAndComparePassword(String username, String password) { 
     return io.vertx.reactivex.impl.AsyncResultSingle.toSingle(handler -> {
-      searchArticle(keyword, handler);
+      getUserAndComparePassword(username, password, handler);
     });
   }
 
 
-  public static  ArticleService newInstance(com.pedro.vertx.service.ArticleService arg) {
-    return arg != null ? new ArticleService(arg) : null;
+  public static  UserService newInstance(com.pedro.vertx.service.UserService arg) {
+    return arg != null ? new UserService(arg) : null;
   }
 }

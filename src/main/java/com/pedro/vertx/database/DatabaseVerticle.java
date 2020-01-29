@@ -2,6 +2,7 @@ package com.pedro.vertx.database;
 
 import com.pedro.vertx.common.BaseVerticle;
 import com.pedro.vertx.service.ArticleService;
+import com.pedro.vertx.service.UserService;
 import io.vertx.core.json.JsonObject;
 import io.vertx.reactivex.ext.jdbc.JDBCClient;
 import io.vertx.serviceproxy.ServiceBinder;
@@ -47,8 +48,12 @@ public class DatabaseVerticle extends BaseVerticle {
   }
 
   private void bindServices() {
-    ArticleService articleService = ArticleService.create(client);
     ServiceBinder binder = new ServiceBinder(vertx.getDelegate());
+
+    ArticleService articleService = ArticleService.create(config(), client);
     binder.setAddress(ARTICLE_SERVICE_QUEUE).register(ArticleService.class, articleService);
+
+    UserService userService = UserService.create(config(), client);
+    binder.setAddress(USER_SERVICE_QUEUE).register(UserService.class, userService);
   }
 }
