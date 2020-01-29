@@ -1,24 +1,55 @@
 package com.pedro.vertx;
 
-import io.vertx.core.Vertx;
-import io.vertx.junit5.VertxExtension;
-import io.vertx.junit5.VertxTestContext;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import com.pedro.vertx.http.HttpVerticle;
+import io.vertx.ext.unit.Async;
+import io.vertx.ext.unit.TestContext;
+import io.vertx.ext.unit.junit.VertxUnitRunner;
+import io.vertx.reactivex.core.Vertx;
+import io.vertx.reactivex.core.buffer.Buffer;
+import io.vertx.reactivex.ext.web.client.HttpResponse;
+import io.vertx.reactivex.ext.web.client.WebClient;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-@ExtendWith(VertxExtension.class)
+@RunWith(VertxUnitRunner.class)
 public class TestMainVerticle {
 
-  @BeforeEach
-  void deploy_verticle(Vertx vertx, VertxTestContext testContext) {
-    vertx.deployVerticle(new MainVerticle(), testContext.succeeding(id -> testContext.completeNow()));
+  private Vertx vertx;
+
+  private WebClient webClient;
+
+  @Before
+  public void deploy_verticle(TestContext testContext) {
+    vertx = Vertx.vertx();
+    vertx.deployVerticle(new HttpVerticle(), testContext.asyncAssertSuccess(it -> {
+      webClient = WebClient.create(vertx);
+    }));
+  }
+
+  @After
+  public void verticle_deployed(TestContext context) throws Throwable {
+    webClient.close();
+    vertx.close(context.asyncAssertSuccess());
   }
 
   @Test
-  void verticle_deployed(Vertx vertx, VertxTestContext testContext) throws Throwable {
-    testContext.completeNow();
+  public void indexHandler(TestContext context) throws Throwable {
+    Async async = context.async();
+    webClient
+      .get(5000, "localhost", "/")
+      .send(ar -> {
+        if (ar.succeeded()) {
+          HttpResponse<Buffer> response = ar.result();
+          context.assertTrue(response.headers().contains("Content-Type"));
+          context.assertEquals("text/plain", response.getHeader("Content-Type"));
+          context.assertEquals("Hello Body!", response.body().toString());
+          async.complete();
+        } else {
+          context.fail(ar.cause());
+        }
+      });
+    context.async().complete();
   }
 }

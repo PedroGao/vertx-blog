@@ -13,7 +13,7 @@ import static com.pedro.vertx.consts.DatabaseConsts.*;
 
 public class DatabaseVerticle extends BaseVerticle {
 
-  private Logger logger = LoggerFactory.getLogger(DatabaseVerticle.class);
+  private final Logger logger = LoggerFactory.getLogger(DatabaseVerticle.class);
 
   private JDBCClient client;
 

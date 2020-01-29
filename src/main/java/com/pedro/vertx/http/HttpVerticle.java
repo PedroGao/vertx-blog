@@ -26,8 +26,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.pedro.vertx.consts.DatabaseConsts.ARTICLE_SERVICE_QUEUE;
-import static com.pedro.vertx.consts.DatabaseConsts.USER_SERVICE_QUEUE;
+import static com.pedro.vertx.consts.DatabaseConsts.*;
 import static com.pedro.vertx.consts.HttpConsts.*;
 
 public class HttpVerticle extends BaseVerticle {
@@ -53,6 +52,7 @@ public class HttpVerticle extends BaseVerticle {
   }
 
   private void indexHandler(RoutingContext context) {
+    context.response().putHeader("Content-Type", "text/plain");
     context.response().end("Hello Body!");
   }
 
@@ -117,10 +117,8 @@ public class HttpVerticle extends BaseVerticle {
     String secret = config().getString(TOKEN_SECRET_CONFIG, "secret");
 
     jwt = JWTAuth.create(vertx, new JWTAuthOptions()
-      .addPubSecKey(new PubSecKeyOptions()
-        .setAlgorithm("HS256")
-        .setPublicKey(secret)
-        .setSymmetric(true)));
+      .addPubSecKey(new PubSecKeyOptions().setAlgorithm("HS256").setPublicKey(secret).setSymmetric(true))
+    );
 
     router.get("/").handler(this::indexHandler);
     router.post("/login").handler(RequestValidators.loginValidator()).handler(this::loginHandler);

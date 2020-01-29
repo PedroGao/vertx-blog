@@ -1,18 +1,16 @@
 package com.pedro.vertx.model;
 
 import io.vertx.core.json.JsonObject;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class ArticleTest {
+public class ArticleTest {
 
   private final Logger logger = LoggerFactory.getLogger(ArticleTest.class);
 
   @Test
-  void toJson() {
+  public void toJson() {
     Article article = new Article();
     article.setId(1L);
     article.setTitle("pedro");
