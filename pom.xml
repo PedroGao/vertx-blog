@@ -43,9 +43,9 @@
   <dependencies>
 
     <dependency>
-      <groupId>com.lin.cms</groupId>
-      <artifactId>core</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <groupId>io.github.talelin</groupId>
+      <artifactId>lin-cms-core</artifactId>
+      <version>0.0.1-RC1</version>
     </dependency>
 
     <dependency>

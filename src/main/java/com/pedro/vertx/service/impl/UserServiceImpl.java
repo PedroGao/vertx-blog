@@ -1,8 +1,8 @@
 package com.pedro.vertx.service.impl;
 
-import com.lin.cms.core.utils.EncryptUtil;
 import com.pedro.vertx.common.exception.AuthorizationException;
 import com.pedro.vertx.service.UserService;
+import io.github.talelin.core.utils.EncryptUtil;
 import io.reactivex.Single;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;

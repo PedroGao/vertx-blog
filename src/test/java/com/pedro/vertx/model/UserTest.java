@@ -1,6 +1,6 @@
 package com.pedro.vertx.model;
 
-import com.lin.cms.core.utils.EncryptUtil;
+import io.github.talelin.core.utils.EncryptUtil;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
