@@ -45,12 +45,7 @@
     <dependency>
       <groupId>io.github.talelin</groupId>
       <artifactId>lin-cms-core</artifactId>
-      <version>0.0.1-RC1</version>
-    </dependency>
-
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-jdbc-client</artifactId>
+      <version>0.0.1-RC2</version>
     </dependency>
 
     <dependency>
@@ -79,9 +74,8 @@
     </dependency>
 
     <dependency>
-      <groupId>org.postgresql</groupId>
-      <artifactId>postgresql</artifactId>
-      <version>${postgresql.version}</version>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-pg-client</artifactId>
     </dependency>
 
     <dependency>

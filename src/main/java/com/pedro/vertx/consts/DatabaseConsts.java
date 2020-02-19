@@ -2,13 +2,17 @@ package com.pedro.vertx.consts;
 
 public class DatabaseConsts {
 
-  public static final String DEFAULT_DB_URL = "jdbc:postgresql://127.0.0.1:5432/imooc";
+  public static final String DB_HOST_CONFIG = "db.host";
 
-  public static final String DB_URL_CONFIG = "db.url";
+  public static final String DEFAULT_DB_HOST = "127.0.0.1";
 
-  public static final String DEFAULT_DRIVER_CLASS = "org.postgresql.Driver";
+  public static final Integer DEFAULT_DB_PORT = 5432;
 
-  public static final String DB_DRIVER_CLASS_CONFIG = "db.driver_class";
+  public static final String DB_PORT_CONFIG = "db.port";
+
+  public static final String DEFAULT_DB_VALUE = "imooc";
+
+  public static final String DB_VALUE_CONFIG = "db.db";
 
   public static final String DEFAULT_DB_USER = "pedro";
 

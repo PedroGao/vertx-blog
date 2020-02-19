@@ -9,7 +9,7 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
-import io.vertx.reactivex.ext.jdbc.JDBCClient;
+import io.vertx.reactivex.pgclient.PgPool;
 
 
 @ProxyGen
@@ -23,7 +23,7 @@ public interface UserService {
   UserService getUserAndComparePassword(String username, String password, Handler<AsyncResult<Boolean>> handler);
 
   @GenIgnore
-  static UserService create(JsonObject config, JDBCClient client) {
+  static UserService create(JsonObject config, PgPool client) {
     return new UserServiceImpl(config, client);
   }
 

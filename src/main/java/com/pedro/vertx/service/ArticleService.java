@@ -9,7 +9,7 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
-import io.vertx.reactivex.ext.jdbc.JDBCClient;
+import io.vertx.reactivex.pgclient.PgPool;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ public interface ArticleService {
   ArticleService searchArticle(String keyword, Handler<AsyncResult<List<JsonObject>>> handler);
 
   @GenIgnore
-  static ArticleService create(JsonObject config, JDBCClient client) {
+  static ArticleService create(JsonObject config, PgPool client) {
     return new ArticleServiceImpl(config, client);
   }
 

@@ -3,9 +3,10 @@ package com.pedro.vertx.database;
 import com.pedro.vertx.common.BaseVerticle;
 import com.pedro.vertx.service.ArticleService;
 import com.pedro.vertx.service.UserService;
-import io.vertx.core.json.JsonObject;
-import io.vertx.reactivex.ext.jdbc.JDBCClient;
+import io.vertx.pgclient.PgConnectOptions;
+import io.vertx.reactivex.pgclient.PgPool;
 import io.vertx.serviceproxy.ServiceBinder;
+import io.vertx.sqlclient.PoolOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +16,7 @@ public class DatabaseVerticle extends BaseVerticle {
 
   private final Logger logger = LoggerFactory.getLogger(DatabaseVerticle.class);
 
-  private JDBCClient client;
+  private PgPool client;
 
   @Override
   public void start() throws Exception {
@@ -29,17 +30,20 @@ public class DatabaseVerticle extends BaseVerticle {
   }
 
   private void initClient() {
-    String url = config().getString(DB_URL_CONFIG, DEFAULT_DB_URL);
-    String driverClass = config().getString(DB_DRIVER_CLASS_CONFIG, DEFAULT_DRIVER_CLASS);
+    String host = config().getString(DB_HOST_CONFIG, DEFAULT_DB_HOST);
+    Integer port = config().getInteger(DB_PORT_CONFIG, DEFAULT_DB_PORT);
     String user = config().getString(DB_USER_CONFIG, DEFAULT_DB_USER);
     String password = config().getString(DB_PASSWORD_CONFIG, DEFAULT_DB_PASSWORD);
+    String db = config().getString(DB_VALUE_CONFIG, DEFAULT_DB_VALUE);
 
-    JsonObject clientConfig = new JsonObject();
-    clientConfig.put("url", url);
-    clientConfig.put("driver_class", driverClass);
-    clientConfig.put("user", user);
-    clientConfig.put("password", password);
-    client = JDBCClient.createShared(vertx, clientConfig);
+    PgConnectOptions connectOptions = new PgConnectOptions()
+      .setPort(port)
+      .setHost(host)
+      .setDatabase(db)
+      .setUser(user)
+      .setPassword(password);
+    PoolOptions poolOptions = new PoolOptions().setMaxSize(5);
+    client = PgPool.pool(vertx, connectOptions, poolOptions);
     client.getConnection(rc -> {
       if (rc.failed()) {
         logger.error("database connect error:", rc.cause());

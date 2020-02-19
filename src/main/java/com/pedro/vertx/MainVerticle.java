@@ -18,7 +18,7 @@ public class MainVerticle extends BaseVerticle {
       .flatMap(it -> vertx.rxDeployVerticle(new HttpVerticle()))
       .subscribe(
         ok -> logger.info("vertx deploy ok : {}", ok),
-        err -> logger.error("vertx deploy err: ", err.getCause())
+        err -> logger.error("vertx deploy err: {}", err.getMessage())
       );
   }
 }
