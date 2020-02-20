@@ -2,6 +2,8 @@ package com.pedro.vertx.service.impl;
 
 import com.pedro.vertx.common.RowsUtil;
 import com.pedro.vertx.common.exception.AuthorizationException;
+import com.pedro.vertx.database.JooqConfiguration;
+import com.pedro.vertx.database.gen.tables.daos.BlogUserDao;
 import com.pedro.vertx.service.UserService;
 import io.github.talelin.core.utils.EncryptUtil;
 import io.reactivex.Single;
@@ -23,9 +25,12 @@ public class UserServiceImpl implements UserService {
 
   private JsonObject config;
 
+  private BlogUserDao userDao;
+
   public UserServiceImpl(JsonObject config, PgPool client) {
     this.client = client;
     this.config = config;
+    userDao = new BlogUserDao(JooqConfiguration.configuration, client);
   }
 
   @Override
