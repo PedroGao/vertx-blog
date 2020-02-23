@@ -41,7 +41,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Article extends TableImpl<ArticleRecord> {
 
-    private static final long serialVersionUID = 535051575;
+    private static final long serialVersionUID = 694876172;
 
     /**
      * The reference instance of <code>public.article</code>
@@ -70,12 +70,6 @@ public class Article extends TableImpl<ArticleRecord> {
      * The column <code>public.article.content</code>.
      */
     public final TableField<ArticleRecord, String> CONTENT = createField("content", org.jooq.impl.SQLDataType.CLOB, this, "");
-
-    /**
-     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
-     */
-    @java.lang.Deprecated
-    public final TableField<ArticleRecord, Object> FTS = createField("fts", org.jooq.impl.DefaultDataType.getDefaultDataType("\"pg_catalog\".\"tsvector\""), this, "");
 
     /**
      * Create a <code>public.article</code> table reference
@@ -123,7 +117,7 @@ public class Article extends TableImpl<ArticleRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.ARTICLE_FTS_GIN_INDEX, Indexes.ARTICLE_PKEY);
+        return Arrays.<Index>asList(Indexes.ARTICLE_PKEY);
     }
 
     /**

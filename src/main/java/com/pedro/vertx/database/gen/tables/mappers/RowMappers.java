@@ -13,7 +13,6 @@ public class RowMappers {
             pojo.setId(row.getInteger("id"));
             pojo.setTitle(row.getString("title"));
             pojo.setContent(row.getString("content"));
-            // Omitting unrecognized type DataType [ t=tsvector; p=0; s=0; u="pg_catalog"."tsvector"; j=null ] (java.lang.Object) for column fts!
             return pojo;
         };
     }

@@ -55,18 +55,6 @@ public interface IArticle extends VertxPojo, Serializable {
      */
     public String getContent();
 
-    /**
-     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
-     */
-    @java.lang.Deprecated
-    public IArticle setFts(Object value);
-
-    /**
-     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
-     */
-    @java.lang.Deprecated
-    public Object getFts();
-
     // -------------------------------------------------------------------------
     // FROM and INTO
     // -------------------------------------------------------------------------
@@ -98,11 +86,6 @@ public interface IArticle extends VertxPojo, Serializable {
         } catch (java.lang.ClassCastException e) {
             throw new UnexpectedJsonValueType("content","java.lang.String",e);
         }
-        try {
-            // Omitting unrecognized type java.lang.Object for column fts!
-        } catch (java.lang.ClassCastException e) {
-            throw new UnexpectedJsonValueType("fts","java.lang.Object",e);
-        }
         return this;
     }
 
@@ -113,7 +96,6 @@ public interface IArticle extends VertxPojo, Serializable {
         json.put("id",getId());
         json.put("title",getTitle());
         json.put("content",getContent());
-        // Omitting unrecognized type java.lang.Object for column fts!
         return json;
     }
 

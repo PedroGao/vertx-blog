@@ -24,12 +24,11 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Article implements VertxPojo, IArticle {
 
-    private static final long serialVersionUID = 183060425;
+    private static final long serialVersionUID = 1979385889;
 
     private Integer id;
     private String  title;
     private String  content;
-    private Object  fts;
 
     public Article() {}
 
@@ -37,19 +36,16 @@ public class Article implements VertxPojo, IArticle {
         this.id = value.getId();
         this.title = value.getTitle();
         this.content = value.getContent();
-        this.fts = value.getFts();
     }
 
     public Article(
         Integer id,
         String  title,
-        String  content,
-        Object  fts
+        String  content
     ) {
         this.id = id;
         this.title = title;
         this.content = content;
-        this.fts = fts;
     }
 
     @Override
@@ -85,27 +81,6 @@ public class Article implements VertxPojo, IArticle {
         return this;
     }
 
-
-    /**
-     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
-     */
-    @java.lang.Deprecated
-    @Override
-    public Object getFts() {
-        return this.fts;
-    }
-
-
-    /**
-     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
-     */
-    @java.lang.Deprecated
-    @Override
-    public Article setFts(Object fts) {
-        this.fts = fts;
-        return this;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Article (");
@@ -113,7 +88,6 @@ public class Article implements VertxPojo, IArticle {
         sb.append(id);
         sb.append(", ").append(title);
         sb.append(", ").append(content);
-        sb.append(", ").append(fts);
 
         sb.append(")");
         return sb.toString();
@@ -131,7 +105,6 @@ public class Article implements VertxPojo, IArticle {
         setId(from.getId());
         setTitle(from.getTitle());
         setContent(from.getContent());
-        setFts(from.getFts());
     }
 
     /**

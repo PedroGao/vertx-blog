@@ -31,7 +31,6 @@ public class Indexes {
     // INDEX definitions
     // -------------------------------------------------------------------------
 
-    public static final Index ARTICLE_FTS_GIN_INDEX = Indexes0.ARTICLE_FTS_GIN_INDEX;
     public static final Index ARTICLE_PKEY = Indexes0.ARTICLE_PKEY;
     public static final Index BLOG_USER_PKEY = Indexes0.BLOG_USER_PKEY;
     public static final Index USERNAME_INDEX = Indexes0.USERNAME_INDEX;
@@ -41,7 +40,6 @@ public class Indexes {
     // -------------------------------------------------------------------------
 
     private static class Indexes0 {
-        public static Index ARTICLE_FTS_GIN_INDEX = Internal.createIndex("article_fts_gin_index", Article.ARTICLE, new OrderField[] { Article.ARTICLE.FTS }, false);
         public static Index ARTICLE_PKEY = Internal.createIndex("article_pkey", Article.ARTICLE, new OrderField[] { Article.ARTICLE.ID }, true);
         public static Index BLOG_USER_PKEY = Internal.createIndex("blog_user_pkey", BlogUser.BLOG_USER, new OrderField[] { BlogUser.BLOG_USER.ID }, true);
         public static Index USERNAME_INDEX = Internal.createIndex("username_index", BlogUser.BLOG_USER, new OrderField[] { BlogUser.BLOG_USER.USERNAME }, true);

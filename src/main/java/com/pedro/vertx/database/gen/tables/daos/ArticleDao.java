@@ -62,13 +62,6 @@ public class ArticleDao extends AbstractReactiveVertxDAO<ArticleRecord, com.pedr
         return findManyByCondition(Article.ARTICLE.CONTENT.in(values));
     }
 
-    /**
-     * Find records that have <code>fts IN (values)</code> asynchronously
-     */
-    public Single<List<com.pedro.vertx.database.gen.tables.pojos.Article>> findManyByFts(List<Object> values) {
-        return findManyByCondition(Article.ARTICLE.FTS.in(values));
-    }
-
     @Override
     public ReactiveRXQueryExecutor<ArticleRecord,com.pedro.vertx.database.gen.tables.pojos.Article,Integer> queryExecutor(){
         return (ReactiveRXQueryExecutor<ArticleRecord,com.pedro.vertx.database.gen.tables.pojos.Article,Integer>) super.queryExecutor();
