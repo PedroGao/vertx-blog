@@ -39,11 +39,6 @@ public class ArticleServiceImpl implements ArticleService {
       .findAll()
       .map(articles -> articles.stream().map(IArticle::toJson).collect(Collectors.toList()))
       .subscribe(SingleHelper.toObserver(handler));
-    // String sql = config.getString("sql.ArticleService.fetchAllArticles");
-    // client
-    //   .rxQuery(sql)
-    //   .map(RowsUtil::row2List)
-    //   .subscribe(SingleHelper.toObserver(handler));
     return this;
   }
 

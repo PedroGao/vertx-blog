@@ -5,7 +5,6 @@ import com.pedro.vertx.common.exception.AuthorizationException;
 import com.pedro.vertx.common.handlers.FailureHandler;
 import com.pedro.vertx.common.RequestValidators;
 import com.pedro.vertx.common.ResponseUtil;
-import com.pedro.vertx.model.Article;
 import com.pedro.vertx.service.ArticleService;
 import com.pedro.vertx.service.UserService;
 import io.vertx.core.json.JsonArray;
@@ -21,10 +20,6 @@ import io.vertx.reactivex.ext.web.handler.BodyHandler;
 import io.vertx.reactivex.ext.web.handler.JWTAuthHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.pedro.vertx.consts.DatabaseConsts.*;
 import static com.pedro.vertx.consts.HttpConsts.*;
@@ -81,11 +76,7 @@ public class HttpVerticle extends BaseVerticle {
     articleService
       .rxFetchAllArticles()
       .subscribe(
-        articles -> {
-          List<Article> articleList = articles.stream().map(Article::new).collect(Collectors.toList());
-          logger.info("articles: {}", articleList);
-          ResponseUtil.generateSuccessResponse(context, new JsonArray(articles));
-        },
+        articles -> ResponseUtil.generateSuccessResponse(context, new JsonArray(articles)),
         context::fail
       );
   }
@@ -96,9 +87,7 @@ public class HttpVerticle extends BaseVerticle {
     articleService
       .rxSearchArticle(keyword)
       .subscribe(
-        articles -> {
-          ResponseUtil.generateSuccessResponse(context, new JsonArray(articles));
-        },
+        articles -> ResponseUtil.generateSuccessResponse(context, new JsonArray(articles)),
         context::fail
       );
   }
