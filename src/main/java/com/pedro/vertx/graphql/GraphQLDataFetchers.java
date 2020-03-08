@@ -89,10 +89,9 @@ public class GraphQLDataFetchers {
   public DataFetcher getArticleByIdDataFetcher() {
     CompletableFuture<Map<String, Object>> completableFuture = new CompletableFuture<>();
     return dataFetchingEnvironment -> {
-      String id = dataFetchingEnvironment.getArgument("id");
-      int i = Integer.parseInt(id);
+      Integer id = dataFetchingEnvironment.getArgument("id");
       articleService
-        .rxGetArticleById(i)
+        .rxGetArticleById(id)
         .map(JsonObject::getMap)
         .subscribe(completableFuture::complete,
           completableFuture::completeExceptionally);
