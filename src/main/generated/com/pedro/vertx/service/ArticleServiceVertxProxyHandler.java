@@ -125,6 +125,11 @@ public class ArticleServiceVertxProxyHandler extends ProxyHandler {
                         HelperUtils.createListHandler(msg));
           break;
         }
+        case "getArticleById": {
+          service.getArticleById(json.getValue("id") == null ? null : (json.getLong("id").intValue()),
+                        HelperUtils.createHandler(msg));
+          break;
+        }
         default: throw new IllegalStateException("Invalid action: " + action);
       }
     } catch (Throwable t) {

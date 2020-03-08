@@ -24,6 +24,9 @@ public interface ArticleService {
   @Fluent
   ArticleService searchArticle(String keyword, Handler<AsyncResult<List<JsonObject>>> handler);
 
+  @Fluent
+  ArticleService getArticleById(Integer id, Handler<AsyncResult<JsonObject>> handler);
+
   @GenIgnore
   static ArticleService create(JsonObject config, PgPool client) {
     return new ArticleServiceImpl(config, client);

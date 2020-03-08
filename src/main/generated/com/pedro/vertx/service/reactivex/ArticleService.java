@@ -85,6 +85,17 @@ public class ArticleService {
     });
   }
 
+  public com.pedro.vertx.service.reactivex.ArticleService getArticleById(Integer id, Handler<AsyncResult<JsonObject>> handler) { 
+    delegate.getArticleById(id, handler);
+    return this;
+  }
+
+  public Single<JsonObject> rxGetArticleById(Integer id) { 
+    return io.vertx.reactivex.impl.AsyncResultSingle.toSingle(handler -> {
+      getArticleById(id, handler);
+    });
+  }
+
 
   public static  ArticleService newInstance(com.pedro.vertx.service.ArticleService arg) {
     return arg != null ? new ArticleService(arg) : null;

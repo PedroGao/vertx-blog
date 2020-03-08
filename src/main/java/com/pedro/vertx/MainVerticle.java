@@ -6,6 +6,7 @@ import com.pedro.vertx.http.HttpVerticle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@SuppressWarnings("ResultOfMethodCallIgnored")
 public class MainVerticle extends BaseVerticle {
 
   private Logger logger = LoggerFactory.getLogger(MainVerticle.class);
@@ -18,7 +19,7 @@ public class MainVerticle extends BaseVerticle {
       .flatMap(it -> vertx.rxDeployVerticle(new HttpVerticle()))
       .subscribe(
         ok -> logger.info("vertx deploy ok : {}", ok),
-        err -> logger.error("vertx deploy err: {}", err.getMessage())
+        err -> logger.error("vertx deploy err:", err)
       );
   }
 }

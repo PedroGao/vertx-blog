@@ -5,8 +5,11 @@ import com.pedro.vertx.common.exception.AuthorizationException;
 import com.pedro.vertx.common.handlers.FailureHandler;
 import com.pedro.vertx.common.RequestValidators;
 import com.pedro.vertx.common.ResponseUtil;
+import com.pedro.vertx.graphql.GraphQLDataFetchers;
+import com.pedro.vertx.graphql.GraphQLProvider;
 import com.pedro.vertx.service.ArticleService;
 import com.pedro.vertx.service.UserService;
+import graphql.GraphQL;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.PubSecKeyOptions;
@@ -18,12 +21,16 @@ import io.vertx.reactivex.ext.web.Router;
 import io.vertx.reactivex.ext.web.RoutingContext;
 import io.vertx.reactivex.ext.web.handler.BodyHandler;
 import io.vertx.reactivex.ext.web.handler.JWTAuthHandler;
+import io.vertx.reactivex.ext.web.handler.graphql.GraphQLHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 
 import static com.pedro.vertx.consts.DatabaseConsts.*;
 import static com.pedro.vertx.consts.HttpConsts.*;
 
+@SuppressWarnings("ResultOfMethodCallIgnored")
 public class HttpVerticle extends BaseVerticle {
 
   private final Logger logger = LoggerFactory.getLogger(HttpVerticle.class);
@@ -97,7 +104,7 @@ public class HttpVerticle extends BaseVerticle {
     userService = new com.pedro.vertx.service.reactivex.UserService(UserService.createProxy(vertx.getDelegate(), USER_SERVICE_QUEUE));
   }
 
-  private HttpServer initHttpServer() {
+  private HttpServer initHttpServer() throws IOException {
     HttpServer server = vertx.createHttpServer();
     Router router = Router.router(vertx);
     router.route().failureHandler(new FailureHandler());
@@ -112,11 +119,19 @@ public class HttpVerticle extends BaseVerticle {
     router.get("/").handler(this::indexHandler);
     router.post("/login").handler(RequestValidators.loginValidator()).handler(this::loginHandler);
 
+    GraphQL graphQL = setupGraphQLJava();
+    router.route("/graphql").handler(GraphQLHandler.create(graphQL));
     router.route("/api/*").handler(JWTAuthHandler.create(jwt, "/login"));
     router.get("/api/article").handler(this::articlesHandler);
     router.get("/api/article/search").handler(RequestValidators.keywordValidator()).handler(this::searchArticleHandler);
 
     server.requestHandler(router);
     return server;
+  }
+
+  private GraphQL setupGraphQLJava() throws IOException {
+    GraphQLDataFetchers dataFetchers = new GraphQLDataFetchers(articleService);
+    GraphQLProvider provider = new GraphQLProvider(dataFetchers);
+    return provider.graphQL();
   }
 }

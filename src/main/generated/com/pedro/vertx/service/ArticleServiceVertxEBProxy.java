@@ -102,4 +102,24 @@ public class ArticleServiceVertxEBProxy implements ArticleService {
     });
     return this;
   }
+  @Override
+  public  ArticleService getArticleById(Integer id, Handler<AsyncResult<JsonObject>> handler){
+    if (closed) {
+      handler.handle(Future.failedFuture(new IllegalStateException("Proxy is closed")));
+      return this;
+    }
+    JsonObject _json = new JsonObject();
+    _json.put("id", id);
+
+    DeliveryOptions _deliveryOptions = (_options != null) ? new DeliveryOptions(_options) : new DeliveryOptions();
+    _deliveryOptions.addHeader("action", "getArticleById");
+    _vertx.eventBus().<JsonObject>send(_address, _json, _deliveryOptions, res -> {
+      if (res.failed()) {
+        handler.handle(Future.failedFuture(res.cause()));
+      } else {
+        handler.handle(Future.succeededFuture(res.result().body()));
+      }
+    });
+    return this;
+  }
 }

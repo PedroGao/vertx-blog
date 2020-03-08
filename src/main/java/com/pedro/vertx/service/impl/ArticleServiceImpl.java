@@ -1,6 +1,7 @@
 package com.pedro.vertx.service.impl;
 
 import com.pedro.vertx.common.RowsUtil;
+import com.pedro.vertx.common.exception.NotFoundException;
 import com.pedro.vertx.database.JooqConfiguration;
 import com.pedro.vertx.database.gen.tables.daos.ArticleDao;
 import com.pedro.vertx.database.gen.tables.interfaces.IArticle;
@@ -49,6 +50,18 @@ public class ArticleServiceImpl implements ArticleService {
       .rxPreparedQuery(sql, Tuple.of(keyword))
       .map(RowsUtil::row2List)
       .subscribe(SingleHelper.toObserver(handler));
+    return this;
+  }
+
+  @Override
+  public ArticleService getArticleById(Integer id, Handler<AsyncResult<JsonObject>> handler) {
+    articleDao.findOneById(id)
+      .map(res -> {
+        if (!res.isPresent()) {
+          throw new NotFoundException("article is not found");
+        }
+        return res.get().toJson();
+      }).subscribe(SingleHelper.toObserver(handler));
     return this;
   }
 }
