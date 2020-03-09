@@ -14,18 +14,23 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.PubSecKeyOptions;
 import io.vertx.ext.auth.jwt.JWTAuthOptions;
+import io.vertx.core.http.HttpMethod;
 import io.vertx.ext.jwt.JWTOptions;
 import io.vertx.reactivex.core.http.HttpServer;
 import io.vertx.reactivex.ext.auth.jwt.JWTAuth;
 import io.vertx.reactivex.ext.web.Router;
 import io.vertx.reactivex.ext.web.RoutingContext;
 import io.vertx.reactivex.ext.web.handler.BodyHandler;
+import io.vertx.reactivex.ext.web.handler.CorsHandler;
 import io.vertx.reactivex.ext.web.handler.JWTAuthHandler;
 import io.vertx.reactivex.ext.web.handler.graphql.GraphQLHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.stream.Collectors;
 
 import static com.pedro.vertx.consts.DatabaseConsts.*;
 import static com.pedro.vertx.consts.HttpConsts.*;
@@ -116,6 +121,8 @@ public class HttpVerticle extends BaseVerticle {
       .addPubSecKey(new PubSecKeyOptions().setAlgorithm("HS256").setPublicKey(secret).setSymmetric(true))
     );
 
+    HashSet methods = new HashSet(Arrays.stream(HttpMethod.values()).collect(Collectors.toList()));
+    router.route().handler(CorsHandler.create("*").allowedMethods(methods).allowedHeader("*"));
     router.get("/").handler(this::indexHandler);
     router.post("/login").handler(RequestValidators.loginValidator()).handler(this::loginHandler);
 

@@ -62,8 +62,8 @@ public class GraphQLDataFetchers {
   }
 
   public DataFetcher<CompletionStage<Map<String, String>>> getAuthorDataFetcher() {
-    CompletableFuture<Map<String, String>> completableFuture = new CompletableFuture<>();
     return dataFetchingEnvironment -> {
+      CompletableFuture<Map<String, String>> completableFuture = new CompletableFuture<>();
       Map<String, String> book = dataFetchingEnvironment.getSource();
       String authorId = book.get("authorId");
       Map<String, String> hit = authors
@@ -77,8 +77,8 @@ public class GraphQLDataFetchers {
   }
 
   public DataFetcher<CompletionStage<Integer>> getPageCountDataFetcher() {
-    CompletableFuture<Integer> completableFuture = new CompletableFuture<>();
     return dataFetchingEnvironment -> {
+      CompletableFuture<Integer> completableFuture = new CompletableFuture<>();
       Map<String, String> source = dataFetchingEnvironment.getSource();
       int hit = source.size();
       completableFuture.complete(hit);
@@ -87,14 +87,13 @@ public class GraphQLDataFetchers {
   }
 
   public DataFetcher getArticleByIdDataFetcher() {
-    CompletableFuture<Map<String, Object>> completableFuture = new CompletableFuture<>();
     return dataFetchingEnvironment -> {
+      CompletableFuture<Map<String, Object>> completableFuture = new CompletableFuture<>();
       Integer id = dataFetchingEnvironment.getArgument("id");
       articleService
         .rxGetArticleById(id)
         .map(JsonObject::getMap)
-        .subscribe(completableFuture::complete,
-          completableFuture::completeExceptionally);
+        .subscribe(completableFuture::complete, completableFuture::completeExceptionally);
       return completableFuture;
     };
   }
