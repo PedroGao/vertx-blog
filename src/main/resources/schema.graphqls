@@ -1,23 +1,24 @@
 type Query {
-  bookById(id: ID): Book
-  articleById(id: Int): Article
+  getUserById(id: Int): User
+  getArticleById(id: Int): Article
+  searchArticles(keyword: String): [Article]
 }
 
-type Book {
-  id: ID
-  name: String
-  pageCount: Int
-  author: Author
+type Mutation {
+  login(username: String, password: String): Token
 }
 
-type Author {
-  id: ID
-  firstName: String
-  lastName: String
+type User {
+  id: Int
+  username: String
+}
+
+type Token {
+  token: String
 }
 
 type Article {
-  id: ID
+  id: Int
   title: String
   content: String
 }

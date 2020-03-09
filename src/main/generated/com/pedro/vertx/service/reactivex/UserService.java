@@ -73,6 +73,17 @@ public class UserService {
     });
   }
 
+  public com.pedro.vertx.service.reactivex.UserService getUserById(Integer id, Handler<AsyncResult<JsonObject>> handler) { 
+    delegate.getUserById(id, handler);
+    return this;
+  }
+
+  public Single<JsonObject> rxGetUserById(Integer id) { 
+    return io.vertx.reactivex.impl.AsyncResultSingle.toSingle(handler -> {
+      getUserById(id, handler);
+    });
+  }
+
   public com.pedro.vertx.service.reactivex.UserService getUserAndComparePassword(String username, String password, Handler<AsyncResult<Boolean>> handler) { 
     delegate.getUserAndComparePassword(username, password, handler);
     return this;

@@ -20,6 +20,9 @@ public interface UserService {
   UserService getUserByUsername(String username, Handler<AsyncResult<JsonObject>> handler);
 
   @Fluent
+  UserService getUserById(Integer id, Handler<AsyncResult<JsonObject>> handler);
+
+  @Fluent
   UserService getUserAndComparePassword(String username, String password, Handler<AsyncResult<Boolean>> handler);
 
   @GenIgnore

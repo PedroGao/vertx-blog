@@ -5,8 +5,9 @@ import com.pedro.vertx.common.exception.AuthorizationException;
 import com.pedro.vertx.common.handlers.FailureHandler;
 import com.pedro.vertx.common.RequestValidators;
 import com.pedro.vertx.common.ResponseUtil;
-import com.pedro.vertx.graphql.GraphQLDataFetchers;
+import com.pedro.vertx.graphql.datafetcher.ArticleDataFetcher;
 import com.pedro.vertx.graphql.GraphQLProvider;
+import com.pedro.vertx.graphql.datafetcher.UserDataFetcher;
 import com.pedro.vertx.service.ArticleService;
 import com.pedro.vertx.service.UserService;
 import graphql.GraphQL;
@@ -35,7 +36,7 @@ import java.util.stream.Collectors;
 import static com.pedro.vertx.consts.DatabaseConsts.*;
 import static com.pedro.vertx.consts.HttpConsts.*;
 
-@SuppressWarnings("ResultOfMethodCallIgnored")
+@SuppressWarnings({"ResultOfMethodCallIgnored"})
 public class HttpVerticle extends BaseVerticle {
 
   private final Logger logger = LoggerFactory.getLogger(HttpVerticle.class);
@@ -137,8 +138,9 @@ public class HttpVerticle extends BaseVerticle {
   }
 
   private GraphQL setupGraphQLJava() throws IOException {
-    GraphQLDataFetchers dataFetchers = new GraphQLDataFetchers(articleService);
-    GraphQLProvider provider = new GraphQLProvider(dataFetchers);
+    ArticleDataFetcher articleDataFetcher = new ArticleDataFetcher(articleService);
+    UserDataFetcher userDataFetcher = new UserDataFetcher(userService, jwt);
+    GraphQLProvider provider = new GraphQLProvider(articleDataFetcher, userDataFetcher);
     return provider.graphQL();
   }
 }

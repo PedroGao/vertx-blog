@@ -38,6 +38,20 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
+  public UserService getUserById(Integer id, Handler<AsyncResult<JsonObject>> handler) {
+    userDao.findOneById(id)
+      .map(user -> {
+        if (user.isPresent()) {
+          return user.get().toJson();
+        } else {
+          throw new AuthorizationException("user is not found");
+        }
+      })
+      .subscribe(SingleHelper.toObserver(handler));
+    return this;
+  }
+
+  @Override
   public UserService getUserAndComparePassword(String username, String password, Handler<AsyncResult<Boolean>> handler) {
     queryUserByUsername(username)
       .map(

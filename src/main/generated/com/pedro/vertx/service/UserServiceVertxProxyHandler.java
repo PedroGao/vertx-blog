@@ -120,6 +120,11 @@ public class UserServiceVertxProxyHandler extends ProxyHandler {
                         HelperUtils.createHandler(msg));
           break;
         }
+        case "getUserById": {
+          service.getUserById(json.getValue("id") == null ? null : (json.getLong("id").intValue()),
+                        HelperUtils.createHandler(msg));
+          break;
+        }
         case "getUserAndComparePassword": {
           service.getUserAndComparePassword((java.lang.String)json.getValue("username"),
                         (java.lang.String)json.getValue("password"),

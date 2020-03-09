@@ -2,6 +2,8 @@ package com.pedro.vertx.graphql;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
+import com.pedro.vertx.graphql.datafetcher.ArticleDataFetcher;
+import com.pedro.vertx.graphql.datafetcher.UserDataFetcher;
 import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
 import graphql.schema.idl.RuntimeWiring;
@@ -18,14 +20,16 @@ import static graphql.schema.idl.TypeRuntimeWiring.newTypeWiring;
 public class GraphQLProvider {
   private GraphQL graphQL;
 
-  private GraphQLDataFetchers graphQLDataFetchers;
+  private ArticleDataFetcher articleDataFetcher;
+  private UserDataFetcher userDataFetcher;
 
   public GraphQL graphQL() {
     return graphQL;
   }
 
-  public GraphQLProvider(GraphQLDataFetchers graphQLDataFetchers) throws IOException {
-    this.graphQLDataFetchers = graphQLDataFetchers;
+  public GraphQLProvider(ArticleDataFetcher articleDataFetcher, UserDataFetcher userDataFetcher) throws IOException {
+    this.articleDataFetcher = articleDataFetcher;
+    this.userDataFetcher = userDataFetcher;
     URL url = Resources.getResource("schema.graphqls");
     String sdl = Resources.toString(url, Charsets.UTF_8);
     GraphQLSchema graphQLSchema = buildSchema(sdl);
@@ -42,12 +46,13 @@ public class GraphQLProvider {
   private RuntimeWiring buildWiring() {
     return RuntimeWiring.newRuntimeWiring()
       .type(newTypeWiring("Query")
-        .dataFetcher("bookById", graphQLDataFetchers.getBookByIdDataFetcher())
-        .dataFetcher("articleById",graphQLDataFetchers.getArticleByIdDataFetcher())
+        .dataFetcher("getArticleById", articleDataFetcher.getArticleByIdDataFetcher())
+        .dataFetcher("searchArticles", articleDataFetcher.searchArticlesDataFetcher())
+        .dataFetcher("getUserById", userDataFetcher.getUserByIdDataFetcher())
       )
-      .type(newTypeWiring("Book")
-        .dataFetcher("author", graphQLDataFetchers.getAuthorDataFetcher())
-        .dataFetcher("pageCount", graphQLDataFetchers.getPageCountDataFetcher()))
+      .type(newTypeWiring("Mutation")
+        .dataFetcher("login",userDataFetcher.loginDataFetcher())
+      )
       .build();
   }
 
